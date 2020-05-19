@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: circleci-demo-java-spring-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: circleci-demo-java-spring
+  template:
+    metadata:
+      labels:
+        app: circleci-demo-java-spring
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: circleci-demo-java-spring
+        image: redis
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 8080
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: circleci-demo-java-spring-svc
+spec:
+  ports:
+  - port: 8080
+  selector:
+    app: circleci-demo-java-spring
