@@ -116,7 +116,7 @@ jobs:
             az aks get-credentials --resource-group erste-demo-rg -n este-public-aks --subscription "Free Trial"
             kubectl version
             kubectl get nodes
-            sed -i "s/LATEST_IMAGE/$IMAGE_NAME:$TAG/" circleci-demo-java-spring-deployment.yaml
+            sed -i "s;LATEST_IMAGE;$IMAGE_NAME:$TAG;" circleci-demo-java-spring-deployment.yaml
             kubectl apply -f circleci-demo-java-spring-deployment.yaml
 workflows:
   version: 2
