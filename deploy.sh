@@ -21,7 +21,7 @@ function docker_push() {
   # tag the image
   # publish the image
 
-  docker push "${USERNAME}.azurecr.io/${IMAGE_NAME}:${TAG}"
+  docker push "${IMAGE_NAME}:${TAG}"
 }
 
 function main() {
