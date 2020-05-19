@@ -90,17 +90,23 @@ jobs:
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
-      - checkout      
+      - checkout
       - attach_workspace:
           at: .
       - setup_remote_docker
         #docker_layer_caching: true
       - run:
-          name: Build Docker image
-          command: 
-            docker build -t $IMAGE_NAME:latest .
+          name: Setup Environment Variables
+          command: |
+            echo "export TAG=0.1.$CIRCLE_BUILD_NUM" >> $BASH_ENV
+            echo "export GIT_SHA1=$CIRCLE_SHA1" >> $BASH_ENV
       - run:
-          name: Publish Docker Image to Docker Hub
+          name: Build Docker image
+          command: |
+            echo "Building new image $IMAGE_NAME:$TAG for Git $GIT_SHA1"
+            docker build -t $IMAGE_NAME:$TAG .
+      - run:
+          name: Publish Docker Image to ECR registry
           command: |
             echo "Going to deploy"
             curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
@@ -110,6 +116,7 @@ jobs:
             az aks get-credentials --resource-group erste-demo-rg -n este-public-aks --subscription "Free Trial"
             kubectl version
             kubectl get nodes
+            sed -i "s/LATEST_IMAGE/$IMAGE_NAME:$TAG/" circleci-demo-java-spring-deployment.yaml
             kubectl apply -f circleci-demo-java-spring-deployment.yaml
 workflows:
   version: 2
