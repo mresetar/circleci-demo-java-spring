@@ -16,7 +16,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: circleci-demo-java-spring
-        image: mresetar.azurecr.io/LATEST_IMAGE
+        image: LATEST_IMAGE
         resources:
           requests:
             cpu: 100m
