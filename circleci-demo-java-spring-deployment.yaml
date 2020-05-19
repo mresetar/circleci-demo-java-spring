@@ -16,14 +16,14 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: circleci-demo-java-spring
-        image: redis
+        image: mresetar.azurecr.io/circleci-demo:latest
         resources:
           requests:
             cpu: 100m
             memory: 128Mi
           limits:
-            cpu: 250m
-            memory: 256Mi
+            cpu: 500m
+            memory: 512Mi
         ports:
         - containerPort: 8080
           name: http
@@ -33,7 +33,9 @@ kind: Service
 metadata:
   name: circleci-demo-java-spring-svc
 spec:
+  type: LoadBalancer
   ports:
-  - port: 8080
+  - port: 80
+    targetPort: 8080
   selector:
     app: circleci-demo-java-spring
