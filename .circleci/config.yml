@@ -89,11 +89,12 @@ jobs:
       - image: circleci/buildpack-deps:stretch
     steps:
       - attach_workspace:
-        at: .
+          at: .
       - setup_remote_docker
       - run:
           name: Build Docker image
-          command: docker build -t $IMAGE_NAME:latest .
+          command: 
+            docker build -t $IMAGE_NAME:latest .
   publish:
     environment:
       IMAGE_NAME: mresetar.azurecr.io/circleci-demo
@@ -101,7 +102,7 @@ jobs:
       - image: mresetar/openjdk11-gradle551-az251:latest
     steps:
       - attach_workspace:
-        at: .
+          at: .
       - setup_remote_docker
       - run:
           name: Publish Docker Image to Docker Hub
