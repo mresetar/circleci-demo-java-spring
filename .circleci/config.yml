@@ -106,7 +106,7 @@ jobs:
             curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
             az -v
             bash -x ./deploy.sh
-            az aks install-cli
+            sudo az aks install-cli --client-version v1.15.10
             az aks get-credentials --resource-group erste-demo-rg -n este-public-aks --subscription "Free Trial"
             kubectl version
             kubectl get nodes
