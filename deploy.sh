@@ -15,13 +15,13 @@ function docker_push() {
   #echo -e "Token is \n${TOKEN}\n"
   #echo "${TOKEN}" | sudo docker login -u "${AZ_USERNAME}" "${USERNAME}.azurecr.io" --password-stdin
 
-  sudo cp -r $HOME/.azure /root
-  sudo az acr login --name "${USERNAME}"
+  #sudo cp -r $HOME/.azure /root
+  az acr login --name "${USERNAME}"
 
   # tag the image
   # publish the image
 
-  sudo docker push mresetar.azurecr.io/circleci-demo:v1
+  docker push "${USERNAME}.azurecr.io/circleci-demo:latest"
  
 }
 
@@ -32,4 +32,3 @@ function main() {
 }
 
 main "$@"
-bash

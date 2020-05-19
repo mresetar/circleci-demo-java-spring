@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     environment:
@@ -93,7 +93,8 @@ jobs:
       - checkout      
       - attach_workspace:
           at: .
-      - setup_remote_docker
+      - setup_remote_docker:
+        docker_layer_caching: true
       - run:
           name: Build Docker image
           command: 
@@ -102,7 +103,9 @@ jobs:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "Going to deploy"
-            bash -x ./deploy-to-azure.sh "$AZ_USERNAME" "$AZ_PASSWORD" "$AZ_PEM"
+            curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+            az -v
+            bash -x ./deploy.sh
 workflows:
   version: 2
   workflow:
