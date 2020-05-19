@@ -98,22 +98,11 @@ jobs:
           name: Build Docker image
           command: 
             docker build -t $IMAGE_NAME:latest .
-  publish:
-    environment:
-      IMAGE_NAME: mresetar.azurecr.io/circleci-demo
-    docker:
-      - image: mresetar/openjdk11-gradle551-az251:latest
-    steps:
-      - checkout      
-      - attach_workspace:
-          at: .
-      - setup_remote_docker
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "Going to deploy"
-            ./deploy-to-azure.sh "$AZ_USERNAME" "$AZ_PASSWORD" "$AZ_PEM"
-
+            bash -x ./deploy-to-azure.sh "$AZ_USERNAME" "$AZ_PASSWORD" "$AZ_PEM"
 workflows:
   version: 2
   workflow:
@@ -125,6 +114,3 @@ workflows:
     - package:
         requires:
           - test
-    - publish:
-        requires:
-          - package
