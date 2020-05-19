@@ -112,7 +112,7 @@ jobs:
           name: Publish Docker Image to Docker Hub
           command: |
             echo "Going to deploy"
-            bash -x ./deploy-to-azure.sh $AZ_USERNAME $AZ_PASSWORD $AZ_PEM
+            ./deploy-to-azure.sh "$AZ_USERNAME" "$AZ_PASSWORD" "$AZ_PEM"
 
 workflows:
   version: 2
