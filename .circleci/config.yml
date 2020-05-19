@@ -94,7 +94,7 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build -t $IMAGE_NAME:latest .
-  package:
+  publish:
     environment:
       IMAGE_NAME: mresetar.azurecr.io/circleci-demo
     docker:
@@ -117,3 +117,9 @@ workflows:
     - test:
         requires:
           - build
+    - package:
+        requires:
+          - test
+    - publish:
+        requires:
+          - package
