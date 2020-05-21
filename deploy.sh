@@ -27,7 +27,7 @@ function docker_push() {
 function main() {
   login "$@"
   echo "Going to push Docker Image into ECR"
-  docker_push "mresetar"
+  docker_push "${ACR_USERNAME}"
 }
 
 main "$@"

@@ -87,6 +87,10 @@ jobs:
   package:
     environment:
       IMAGE_NAME: mresetar.azurecr.io/circleci-demo
+      ACR_USERNAME: mresetar
+      RG_GROUP_NAME: erste-demo-rg
+      AKS_CLUSTER_NAME: este-public-aks
+      SUBSCRIPTION: "Free Trial"
     docker:
       - image: circleci/buildpack-deps:stretch
     steps:
@@ -113,7 +117,7 @@ jobs:
             az -v
             bash -x ./deploy.sh
             sudo az aks install-cli --client-version v1.15.10
-            az aks get-credentials --resource-group erste-demo-rg -n este-public-aks --subscription "Free Trial"
+            az aks get-credentials --resource-group $RG_GROUP_NAME -n $AKS_CLUSTER_NAME --subscription $SUBSCRIPTION
             kubectl version
             kubectl get nodes
             sed -i "s;LATEST_IMAGE;$IMAGE_NAME:$TAG;" circleci-demo-java-spring-deployment.yaml
